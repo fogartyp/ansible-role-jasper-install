@@ -1,0 +1,18 @@
+---
+# defaults file for ansible-role-jasper-install
+staging_dir: "/tmp/jasper"
+appServerType: jboss-eap-6
+appServerDir: "/usr/share/jboss-eap-6.3"
+dbType: oracle
+dbUsername: jasperserver
+dbPassword: jasper123
+sysUsername: system
+sysPassword: oracle123
+dbHost: localhost
+dbPort: 1521
+sid: orcl
+jdbcDataSourceClass: oracle.jdbc.pool.OracleConnectionPoolDataSource
+maven_jdbc_groupId: oracle
+maven_jdbc_artifactId: ojdbc6
+maven_jdbc_version: 11.2.0
+jdbcDriverClass: oracle.jdbc.OracleDriver

@@ -1,0 +1,95 @@
+---
+# tasks file for ansible-role-jasper-install
+
+# check for Installation dirs and set install_binaries_exist
+- name: Checking for Installation Directories
+  stat:
+    path: "{{ staging_dir }}/{{ item.name }}"
+  with_items:
+    - { name: 'apache-ant' }
+    - { name: 'buildomatic' }
+    - { name: 'jasperserver-pro.war' }
+  register: install_binaries_exist
+
+# - debug:
+#     var: install_binaries_exist
+
+# Set do_unarchive if install_binaries_exist.results[0].stat.exists == false
+- name: Setting do_unarchive
+  command: /bin/true
+  when: install_binaries_exist.results[0].stat.exists == false
+  register: do_unarchive
+
+# Set do_unarchive if install_binaries_exist.results[1].stat.exists == false
+- name: Setting do_unarchive
+  command: /bin/true
+  when: install_binaries_exist.results[1].stat.exists == false
+  register: do_unarchive
+
+# Set do_unarchive if install_binaries_exist.results[2].stat.exists == false
+- name: Setting do_unarchive
+  command: /bin/true
+  when: install_binaries_exist.results[2].stat.exists == false
+  register: do_unarchive
+
+# - debug:
+#     var: do_unarchive
+
+# unarchive files if install_binaries_exist is
+- name: Unarchiving Installation Binaries
+  unarchive:
+    src: "{{ staging_dir }}/{{ item.name }}.tar.gz"
+    dest: "{{ staging_dir }}"
+  with_items:
+    - { name: 'apache-ant' }
+    - { name: 'buildomatic' }
+    - { name: 'jasperserver-pro' }
+  when: do_unarchive.changed == true
+  register: unarchive_successful
+
+# - debug:
+#     var: unarchive_successful
+
+# default_master.properties template to buildomatic dir
+- name: Creating default_master.properties file in buildomatic directory
+  template:
+    src: default_master.j2
+    dest: "{{ staging_dir }}/buildomatic"
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+
+# set ant home var
+#- name:
+
+# set java home var
+#- name:
+
+# Run 'shell' check for db server and set db_server_exists When dbsrvr is true
+#- name:
+
+# Run 'shell' check for app server and set app_server_exists When appSrvr is true
+#- name:
+
+# When db_server_exists:
+# run 'shell' js-ant with_items
+## js-ant create-js-db
+## js-ant init-js-db-pro
+## js-ant init-js-db-pro
+#- name:
+
+# test_jasper_db Server
+#- name:
+
+# fail dbsrvr if test_jasper_db is XYZ
+#- name:
+
+# When app_server_exists:
+# js-ant deploy-webapp-pro
+#- name:
+
+# test_jasper_app Server
+#- name:
+
+# fail appSrvr if test_jasper_app is xyz
+#- name:
