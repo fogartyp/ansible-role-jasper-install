@@ -13,6 +13,10 @@ dbPort: 1521
 sid: orcl
 jdbcDataSourceClass: oracle.jdbc.pool.OracleConnectionPoolDataSource
 maven_jdbc_groupId: oracle
-maven_jdbc_artifactId: ojdbc6
-maven_jdbc_version: 11.2.0
+maven_jdbc_artifactId: ojdbc7
+#maven_jdbc_artifactId: ojdbc6
+maven_jdbc_version: 12.1.0
+#maven_jdbc_version: 11.2.0
 jdbcDriverClass: oracle.jdbc.OracleDriver
+db_server_exists: true
+app_server_exists: true

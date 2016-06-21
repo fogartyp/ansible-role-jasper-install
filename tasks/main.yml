@@ -54,7 +54,7 @@
 - name: Creating default_master.properties file in buildomatic directory
   template:
     src: default_master.j2
-    dest: "{{ staging_dir }}/buildomatic"
+    dest: "{{ staging_dir }}/buildomatic/default_master.properties"
     owner: vagrant
     group: vagrant
     mode: 0644
@@ -71,12 +71,31 @@
 # Run 'shell' check for app server and set app_server_exists When appSrvr is true
 #- name:
 
+# Make ant Binaries executable
+- name: Setting binaries to executable
+  file:
+    path: "{{ staging_dir }}/{{ item.dir }}/{{ item.bin }}"
+    mode: 0755
+  with_items:
+    - { dir: 'apache-ant/bin', bin: 'ant' }
+    - { dir: 'buildomatic', bin: 'js-ant' }
+
 # When db_server_exists:
 # run 'shell' js-ant with_items
 ## js-ant create-js-db
 ## js-ant init-js-db-pro
-## js-ant init-js-db-pro
-#- name:
+## js-ant import-minimal-pro
+- name: Creating & Loading Jasper DB using Apache Ant
+  shell: "{{ staging_dir }}/buildomatic/js-ant {{ item.target }}"
+  args:
+    chdir: "{{ staging_dir }}/buildomatic"
+  with_items:
+    - { target: 'create-js-db' }
+    - { target: 'init-js-db-pro' }
+    - { target: 'import-minimal-pro' }
+  become: true
+  become_method: sudo
+  when: 'db_server_exists'
 
 # test_jasper_db Server
 #- name:
@@ -84,9 +103,20 @@
 # fail dbsrvr if test_jasper_db is XYZ
 #- name:
 
+# Deploy Jasperserver license
+
 # When app_server_exists:
 # js-ant deploy-webapp-pro
-#- name:
+- name: Deploying Jasper Web Application using Apache Ant
+  shell: "{{ staging_dir }}/buildomatic/js-ant {{ item.target }}"
+  args:
+    chdir: "{{ staging_dir }}/buildomatic"
+  with_items:
+    - { target: 'deploy-webapp-pro' }
+  become: true
+  become_method: sudo
+  when: 'app_server_exists'
+
 
 # test_jasper_app Server
 #- name:
