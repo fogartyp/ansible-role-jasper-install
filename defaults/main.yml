@@ -1,22 +1,20 @@
 ---
 # defaults file for ansible-role-jasper-install
-staging_dir: "/tmp/jasper"
-appServerType: jboss-eap-6
-appServerDir: "/usr/share/jboss-eap-6.3"
-dbType: oracle
-dbUsername: jasperserver
-dbPassword: jasper123
-sysUsername: system
-sysPassword: oracle123
-dbHost: localhost
-dbPort: 1521
-sid: orcl
-jdbcDataSourceClass: oracle.jdbc.pool.OracleConnectionPoolDataSource
-maven_jdbc_groupId: oracle
-maven_jdbc_artifactId: ojdbc7
-#maven_jdbc_artifactId: ojdbc6
-maven_jdbc_version: 12.1.0
-#maven_jdbc_version: 11.2.0
-jdbcDriverClass: oracle.jdbc.OracleDriver
-db_server_exists: true
-app_server_exists: true
+staging_dir: "{{ lookup('env','staging_dir') }}"
+appServerType: "{{ lookup('env','appServerType') }}"
+appServerDir: "{{ lookup('env','appServerDir') }}"
+dbType: "{{ lookup('env','dbType') }}"
+dbUsername: "{{ lookup('env','dbUsername') }}"
+dbPassword: "{{ lookup('env','dbPassword') }}"
+sysUsername: "{{ lookup('env','sysUsername') }}"
+sysPassword: "{{ lookup('env','sysPassword') }}"
+dbHost: "{{ lookup('env','dbHost') }}"
+dbPort: "{{ lookup('env','dbPort') }}"
+sid: "{{ lookup('env','sid') }}"
+jdbcDataSourceClass: "{{ lookup('env','jdbcDataSourceClass') }}"
+maven_jdbc_groupId: "{{ lookup('env','maven_jdbc_groupId') }}"
+maven_jdbc_artifactId: "{{ lookup('env','maven_jdbc_artifactId') }}"
+maven_jdbc_version: "{{ lookup('env','maven_jdbc_version') }}"
+jdbcDriverClass: "{{ lookup('env','jdbcDriverClass') }}"
+db_server_exists: "{{ lookup('env','db_server_exists') }}"
+app_server_exists: "{{ lookup('env','app_server_exists') }}"
